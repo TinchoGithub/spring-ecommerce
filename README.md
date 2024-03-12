@@ -1,14 +1,15 @@
-## Servicios Ecommerce Spring
+## Servicios Ecommerce | Java Spring MySQL
 
 ### Descripción
 
-* Proyecto
 * Spring Framework
 * Spring Boot
 * Spring web
-* Thymeleaf
 * Spring MVC
 * Spring Data JPA
 * Spring Security
+* MySQL JDBC driver
+* Thymeleaf
+* Bootstrap
 * Deployment 
 
