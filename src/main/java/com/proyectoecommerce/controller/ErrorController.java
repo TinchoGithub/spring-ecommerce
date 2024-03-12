@@ -10,7 +10,4 @@ public class ErrorController implements org.springframework.boot.web.servlet.err
     public String manejarError(){
         return "error/error";
     }
-
-
-
 }
