@@ -1,9 +1,11 @@
 package com.proyectoecommerce.model;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
+import java.util.List;
+
+@Entity
+@Table(name = "usuarios")
 public class UsuarioModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,6 +17,12 @@ public class UsuarioModel {
     private String telefono;
     private String tipo;
     private String password;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<ProductoModel> productos;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<OrdenModel> ordenes;
 
     public UsuarioModel() {
     }
@@ -92,6 +100,14 @@ public class UsuarioModel {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<ProductoModel> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(List<ProductoModel> productos) {
+        this.productos = productos;
     }
 
     @Override

@@ -1,11 +1,10 @@
 package com.proyectoecommerce.model;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "productos")
 public class ProductoModel {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
@@ -14,6 +13,9 @@ public class ProductoModel {
     private String imagen;
     private double precio;
     private int cantidad;
+
+    @ManyToOne
+    private UsuarioModel usuario;
 
     public ProductoModel() {
     }
@@ -25,6 +27,16 @@ public class ProductoModel {
         this.imagen = imagen;
         this.precio = precio;
         this.cantidad = cantidad;
+    }
+
+    public ProductoModel(Long id, String nombre, String descripcion, String imagen, double precio, int cantidad, UsuarioModel usuario) {
+        Id = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.imagen = imagen;
+        this.precio = precio;
+        this.cantidad = cantidad;
+        this.usuario = usuario;
     }
 
     public Long getId() {
@@ -73,6 +85,14 @@ public class ProductoModel {
 
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
+    }
+
+    public UsuarioModel getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioModel usuario) {
+        this.usuario = usuario;
     }
 
     @Override

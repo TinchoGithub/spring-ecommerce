@@ -1,11 +1,10 @@
 package com.proyectoecommerce.model;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.Date;
-
+@Entity
+@Table(name = "ordenes")
 public class OrdenModel {
 
     @Id
@@ -15,6 +14,10 @@ public class OrdenModel {
     private Date fechaCreacion;
     private Date fechaRecibida;
     private double total;
+    @ManyToOne
+    private UsuarioModel usuario;
+    @OneToOne(mappedBy = "orden")
+    private DetalleOrdenModel detalle;
 
     public OrdenModel() {
     }
@@ -65,6 +68,14 @@ public class OrdenModel {
 
     public void setTotal(double total) {
         this.total = total;
+    }
+
+    public UsuarioModel getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioModel usuario) {
+        this.usuario = usuario;
     }
 
     @Override

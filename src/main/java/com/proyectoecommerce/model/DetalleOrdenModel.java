@@ -1,9 +1,9 @@
 package com.proyectoecommerce.model;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "detalles")
 public class DetalleOrdenModel {
 
     @Id
@@ -13,6 +13,12 @@ public class DetalleOrdenModel {
     private double cantidad;
     private double precio;
     private double total;
+
+    @OneToOne
+    private OrdenModel orden;
+    @ManyToOne
+    private ProductoModel producto;
+
 
     public DetalleOrdenModel() {
     }
@@ -63,6 +69,22 @@ public class DetalleOrdenModel {
 
     public void setTotal(double total) {
         this.total = total;
+    }
+
+    public OrdenModel getOrden() {
+        return orden;
+    }
+
+    public void setOrden(OrdenModel orden) {
+        this.orden = orden;
+    }
+
+    public ProductoModel getProducto() {
+        return producto;
+    }
+
+    public void setProducto(ProductoModel producto) {
+        this.producto = producto;
     }
 
     @Override
