@@ -2,6 +2,7 @@ package com.proyectoecommerce.service;
 
 import com.proyectoecommerce.model.ProductoModel;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ProductoService {
@@ -10,4 +11,5 @@ public interface ProductoService {
     public Optional<ProductoModel> get(Long id);
     public void update(ProductoModel producto);
     public void delete(Long id);
+    public List<ProductoModel> findAll();
 }
