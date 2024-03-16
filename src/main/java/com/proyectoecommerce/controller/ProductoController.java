@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @Controller
@@ -18,6 +19,7 @@ import java.util.Optional;
 public class ProductoController {
 
     private static final Logger logger = LoggerFactory.getLogger(ProductoController.class);
+    @Autowired
     private UploadImagenService uploadImagenService;
 
     @Autowired
@@ -34,24 +36,16 @@ public class ProductoController {
     }
 
     @PostMapping("/save")
-    public String save(ProductoModel producto,@RequestParam("img") MultipartFile file){
+    public String save(ProductoModel producto,@RequestParam("img") MultipartFile file) throws IOException{
         logger.info("Este es el objeto producto {}",producto);
         UsuarioModel usuario = new UsuarioModel(1L,"","","","","","","");
         producto.setUsuario(usuario);
 
-        if (producto.getId() == null){
+        if (producto.getId() == null){ //Cuando se crea un producto el id es null
             String nombreImagen = uploadImagenService.saveImage(file);
             producto.setImagen(nombreImagen);
-        } else if (file.isEmpty()) {
-            ProductoModel p = new ProductoModel();
-            p = productoService.get(producto.getId()).get();
-            producto.setImagen(p.getImagen());
 
-        }else {
-            String nombreImagen = uploadImagenService.saveImage(file);
-            producto.setImagen(nombreImagen);
         }
-
         productoService.save(producto);
         return "redirect:/productos";
     }
@@ -67,13 +61,35 @@ public class ProductoController {
         return "/productos/edit";
     }
     @PostMapping("/update")
-    public String update(ProductoModel producto){
+    public String update(ProductoModel producto, @RequestParam("img") MultipartFile file) throws IOException {
+        if (file.isEmpty()) {
+            ProductoModel p = new ProductoModel();
+            p = productoService.get(producto.getId()).get();
+            producto.setImagen(p.getImagen());
+        }else {
+            ProductoModel p = new ProductoModel();
+            p = productoService.get(producto.getId()).get();
+
+            if(!p.getImagen().equals("default.jpg")){
+                uploadImagenService.deleteImage(p.getImagen());
+            }
+
+            String nombreImagen = uploadImagenService.saveImage(file);
+            producto.setImagen(nombreImagen);
+        }
         productoService.update(producto);
         return "redirect:/productos";
     }
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id){
+        ProductoModel p = new ProductoModel();
+        p = productoService.get(id).get();
+
+        if(!p.getImagen().equals("default.jpg")){
+            uploadImagenService.deleteImage(p.getImagen());
+        }
+
         productoService.delete(id);
         return "redirect:/productos";
     }

@@ -1,7 +1,6 @@
 package com.proyectoecommerce.service;
 
 import com.proyectoecommerce.controller.ProductoController;
-import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -31,7 +30,7 @@ public class UploadImagenService {
         }
         return "default.jpg";
     }
-    public void delete(String nombre){
+    public void deleteImage(String nombre){
         String ruta = "images//";
         File file = new File(ruta+nombre);
         file.delete();
