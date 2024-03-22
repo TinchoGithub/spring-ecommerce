@@ -8,4 +8,5 @@ public interface UsuarioService {
 
     public Optional<UsuarioModel> findById(Long id);
     public UsuarioModel save(UsuarioModel usuario);
+    Optional<UsuarioModel> findByEmail(String email);
 }

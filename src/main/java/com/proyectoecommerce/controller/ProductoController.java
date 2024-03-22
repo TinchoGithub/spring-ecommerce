@@ -4,6 +4,8 @@ import com.proyectoecommerce.model.ProductoModel;
 import com.proyectoecommerce.model.UsuarioModel;
 import com.proyectoecommerce.service.ProductoService;
 import com.proyectoecommerce.service.UploadImagenService;
+import com.proyectoecommerce.service.UsuarioService;
+import jakarta.servlet.http.HttpSession;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,9 @@ public class ProductoController {
     @Autowired
     private ProductoService productoService;
 
+    @Autowired
+    private UsuarioService usuarioService;
+
     @GetMapping("")
     public String show(Model model){
         model.addAttribute("productos", productoService.findAll());
@@ -36,9 +41,10 @@ public class ProductoController {
     }
 
     @PostMapping("/save")
-    public String save(ProductoModel producto,@RequestParam("img") MultipartFile file) throws IOException{
+    public String save(ProductoModel producto, @RequestParam("img") MultipartFile file, HttpSession session) throws IOException{
         logger.info("Este es el objeto producto {}",producto);
-        UsuarioModel usuario = new UsuarioModel(1L,"","","","","","","");
+
+        UsuarioModel usuario = usuarioService.findById(Long.parseLong(session.getAttribute("idUsuario").toString() )).get();
         producto.setUsuario(usuario);
 
         if (producto.getId() == null){ //Cuando se crea un producto el id es null
