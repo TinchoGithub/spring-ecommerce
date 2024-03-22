@@ -18,4 +18,9 @@ public class UsuarioServiceImpl implements UsuarioService {
     public Optional<UsuarioModel> findById(Long id) {
         return usuarioRepository.findById(id);
     }
+
+    @Override
+    public UsuarioModel save(UsuarioModel usuario) {
+        return usuarioRepository.save(usuario);
+    }
 }
